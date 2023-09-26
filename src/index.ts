@@ -1,8 +1,11 @@
 import express from "express";
 import ProdutosRouter from "./routers/ProdutosRouter";
 
-const PORT = 4000;
+const PORT = 5000;
 const app = express();
+
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
 app.get("/", (_request, response) => {
     response.send("API Produtos v. 1.0");

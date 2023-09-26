@@ -25,6 +25,23 @@ ProdutosRouter.get("/:id", (request, response) => {
     }    
 });
 
+ProdutosRouter.post("/", (request, response) => {
+    if((request.body.nome === undefined) || (request.body.preco === undefined)) {
+        response.status(400).end();
+    } else if (isNaN (+request.body.preco)) {
+        response.status(400).end();
+    } else {
+        const produto: Produto = {
+            id: Date.now(),
+            nome: request.body.nome,
+            preco: +request.body.preco,
+        };
+
+        produtosMock.push(produto);
+        response.status(201).json(produto);
+    };
+});
+
 const produtosMock: Produto[] = [
     {
         id:1, 
