@@ -62,6 +62,22 @@ ProdutosRouter.put("/:id", (request, response) => {
     };
 });
 
+ProdutosRouter.delete("/:id", (request, response) => {
+    const id = +request.params.id
+    
+    if (isNaN(id)) {
+        response.status(400).end();
+    } else {
+        const produto = produtosMock.findIndex(produto => produto.id === id);
+            if (produto === -1) {
+                response.status(404).end();
+            } else {
+                produtosMock.splice(produto, 1);
+                response.status(204).json(produto);
+            };
+    };
+});
+
 const produtosMock: Produto[] = [
     {
         id:1, 
