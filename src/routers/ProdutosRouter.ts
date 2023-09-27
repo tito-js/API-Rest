@@ -42,6 +42,26 @@ ProdutosRouter.post("/", (request, response) => {
     };
 });
 
+ProdutosRouter.put("/:id", (request, response) => {
+    const id = +request.params.id;
+    
+    if (isNaN(id)) {
+        response.status(400).end();
+    } else if ((request.body.nome === undefined) || 
+    (request.body.preco === undefined)) {
+        response.status(400).end();
+    } else {
+        const produto = produtosMock.find(produto => produto.id = id);
+        if (produto === undefined) {
+            response.status(404).end();
+        } else {
+            produto.nome = request.body.nome;
+            produto.preco = request.body.preco;
+            response.status(200).end();
+        };
+    };
+});
+
 const produtosMock: Produto[] = [
     {
         id:1, 
