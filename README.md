@@ -39,7 +39,7 @@ tsc
 2. Inicie o servidor:
 
 ```bash
-npm start
+npm run dev
 ```
 
 O servidor estará rodando em `http://localhost:5000`.
