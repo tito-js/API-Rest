@@ -4,10 +4,15 @@ import ProdutosRepository from "../repositories/ProdutosRepository";
 
 const ProdutosRouter = Express.Router();
 
-ProdutosRouter.get("/", (_request, response) => {
-    const produtos = ProdutosRepository.lerTodos();
-    response.json(produtos);
-});
+ProdutosRouter.get("/", async (_request, response) => {
+    ProdutosRepository.lerTodos()
+    .then((produtos) => {
+         response.json(produtos);
+    })
+    .catch(() => {
+         response.status(400).end();
+    });
+ });
 
 ProdutosRouter.get("/:id", (request, response) => {
     const id = +request.params.id; 

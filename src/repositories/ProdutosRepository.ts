@@ -2,7 +2,9 @@ import Produto from "../models/Produto";
 
 const ProdutosRepository = {
     lerTodos: () => {
-        return mock
+        return new Promise<Produto[]>((resolve, reject) => {
+            resolve(mock)
+        });
     },
     ler: (id: number) => {
         return mock.find(produto => produto.id === id);
