@@ -18,8 +18,8 @@ Antes de começar, certifique-se de ter instalado o seguinte:
 1. Clone o repositório:
 
 ```bash
-git clone https://github.com/tito-js/API-REST.git
-cd API-REST
+git clone https://github.com/tito-js/Back-End.git
+cd Back-End
 ```
 
 2. Instale as dependências:
@@ -39,7 +39,7 @@ tsc
 2. Inicie o servidor:
 
 ```bash
-npm run dev
+npm start
 ```
 
 O servidor estará rodando em `http://localhost:5000`.
@@ -49,10 +49,12 @@ O servidor estará rodando em `http://localhost:5000`.
 ```
 .
 ├── src
-│   ├── controllers
-│   │   └── exemploController.ts
-│   ├── routes
-│   │   └── exemploRoutes.ts
+│   ├── models
+│   │   └── exemploModels.ts
+│   ├── repositories
+│   │   └── exemploRespositories.ts
+|   ├── routes
+|   |   └── exemploRoutes.ts
 │   ├── app.ts
 │   └── server.ts
 ├── .gitignore
@@ -61,45 +63,13 @@ O servidor estará rodando em `http://localhost:5000`.
 └── README.md
 ```
 
-- `src/controllers`: Contém os controladores da API, responsáveis por lidar com as requisições e respostas.
+- `src/models`:  Referem-se à representação estruturada dos dados, definindo como os objetos e entidades são organizados e interagem no sistema.
+- `src/repositories`: É uma camada intermediária que gerencia como os dados são armazenados e recuperados, interagindo com o banco de dados ou outros sistemas de armazenamento.
 - `src/routes`: Define as rotas da API e associa aos controladores.
 - `src/app.ts`: Configura o Express e aplica middlewares.
 - `src/server.ts`: Inicia o servidor.
 
 ## Uso da API
-
-O Postman é uma popular plataforma de colaboração para o desenvolvimento de APIs. Ele oferece uma interface amigável que permite aos desenvolvedores criar, testar e documentar APIs de forma eficaz. Com o Postman, você pode:
-
-1. **Criar Requisições HTTP:**
-   - Você pode criar e enviar solicitações HTTP como GET, POST, PUT, DELETE, etc., para testar endpoints de API.
-
-2. **Organizar Requisições em Coleções:**
-   - O Postman permite agrupar solicitações relacionadas em coleções, o que facilita a organização e a execução de testes.
-
-3. **Automatizar Testes:**
-   - É possível escrever scripts usando JavaScript para automatizar o teste de APIs. Isso é útil para testes de regressão e monitoramento de integridade.
-
-4. **Documentar APIs:**
-   - O Postman oferece a capacidade de criar documentação interativa para suas APIs, facilitando o entendimento e a utilização por parte de outros desenvolvedores.
-
-5. **Compartilhar Coleções e Ambientes:**
-   - Você pode compartilhar coleções e ambientes com membros da equipe ou com a comunidade, o que é útil para colaboração e teste.
-
-6. **Integrações com Ferramentas de Desenvolvimento:**
-   - O Postman se integra com muitas outras ferramentas populares de desenvolvimento, como Git, Jenkins, e mais.
-
-7. **Simular Dados de Resposta:**
-   - O Postman permite simular respostas de APIs, o que é útil para testar como o seu aplicativo lida com diferentes cenários de resposta.
-
-8. **Monitoramento de APIs:**
-   - Ele oferece uma funcionalidade para monitorar a saúde e o desempenho de suas APIs em tempo real.
-
-9. **Trabalhar em Equipe:**
-   - O Postman oferece funcionalidades de colaboração para equipes de desenvolvimento.
-
-Para começar a usar o Postman, você pode baixar e instalar o aplicativo no [site oficial](https://www.postman.com/). Há versões disponíveis para Windows, macOS e Linux.
-
-Além disso, o Postman tem uma extensa documentação e uma comunidade ativa, o que facilita aprender e tirar dúvidas sobre como usar a plataforma.
 
 - Exemplo de requisição GET para obter todos os itens:
   ```
