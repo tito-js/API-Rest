@@ -1,41 +1,60 @@
 import Produto from "../models/Produto";
+import Database from "./Database";
 
 const ProdutosRepository = {
     lerTodos: () => {
+        Database;
         return new Promise<Produto[]>((resolve, reject) => {
             resolve(mock)
         });
     },
+
     ler: (id: number) => {
-        return mock.find(produto => produto.id === id);
-    },
-    criar: (produto: Produto) => {
-        produto.id = Date.now();
-        mock.push(produto);
-        return produto.id;
-    },
-    atualizar: (produto: Produto) => {
-        const produtoExistente = mock.find(
-            produtoExistente => produtoExistente.id === produto.id);
-
-            if (produtoExistente === undefined) {
-                return false;
+        return new Promise<Produto>((resolve, reject) => {
+            const produto = mock.find((produto) => {
+                return produto.id === id;
+            });
+            if (produto === undefined) {
+                reject();
             } else {
-                produtoExistente.nome = produto.nome;
-                produtoExistente.preco = produto.preco;
-                return true;
-            }
-
+                resolve(produto);
+            };
+        });
     },
-    apagar: (id: number) => { 
-        const index = mock.findIndex(produto => produto.id === id);
 
-        if (index === -1) {
-            return false;
-        } else {
-            mock.splice(index, 1);
-            return true;
-        };
+    criar: (produto: Produto) => {
+        return new Promise<Number>((resolve, _reject) => {
+            produto.id = Date.now();
+            mock.push(produto);
+            resolve(produto.id);
+        });
+    },
+
+    atualizar: (novoProduto: Produto) => {
+        return new Promise<void>((resolve, reject) => {
+            const produto = mock.find((produto) => {
+                return produto.id === novoProduto.id;
+            });
+            if (produto === undefined) {
+                reject();
+            } else {
+                produto.nome = novoProduto.nome;
+                produto.preco = novoProduto.preco;
+                resolve();
+            };
+        });
+    },
+
+    apagar: (id: number) => { 
+        return new Promise<void>((resolve, reject) => {
+            const index = mock.findIndex(produto => produto.id === id);
+            if (index === -1) {
+                reject();
+            } else {
+                mock.splice(index, 1);
+                resolve();
+            };
+        });
     },
 };
 

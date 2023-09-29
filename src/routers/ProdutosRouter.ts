@@ -5,29 +5,26 @@ import ProdutosRepository from "../repositories/ProdutosRepository";
 const ProdutosRouter = Express.Router();
 
 ProdutosRouter.get("/", async (_request, response) => {
-    ProdutosRepository.lerTodos()
-    .then((produtos) => {
-         response.json(produtos);
-    })
-    .catch(() => {
-         response.status(400).end();
-    });
- });
+   ProdutosRepository.lerTodos()
+   .then((produtos) => {
+        response.json(produtos);
+   })
+   .catch(() => {
+        response.status(400).end();
+   });
+});
 
 ProdutosRouter.get("/:id", (request, response) => {
-    const id = +request.params.id; 
+
+    const id = +request.params.id;
 
     if (isNaN(id)) {
         response.status(400).end();
     } else {
-        const produto = ProdutosRepository.ler(id);
-
-        if (undefined === produto) {
-            response.status(404).end();
-        } else{
-            response.status(200).json(produto);
-        }
-    }    
+        ProdutosRepository.ler(id)
+        .then(produto => response.status(200).json(produto))
+        .catch(erro => response.status(404).end());   
+    };   
 });
 
 ProdutosRouter.post("/", (request, response) => {
@@ -40,9 +37,13 @@ ProdutosRouter.post("/", (request, response) => {
             nome: request.body.nome,
             preco: +request.body.preco,
         };
-
-        const id = ProdutosRepository.criar(produto);
-        response.status(201).json(id);
+        ProdutosRepository.criar(produto)
+        .then((id) => {
+            response.status(201).json(id);
+        })
+        .catch(() => {
+            response.status(400).end();
+        });
     };
 });
 
@@ -54,17 +55,18 @@ ProdutosRouter.put("/:id", (request, response) => {
     (request.body.preco === undefined)) {
         response.status(400).end();
     } else {
-        const sucesso = ProdutosRepository.atualizar({
+        const novoProduto: Produto = {
             id,
             nome: request.body.nome,
-            preco: request.body.preco
-        });
-
-        if (!sucesso) {
-            response.status(404).end();
-        } else {
-            response.status(200).end();
+            preco: request.body.preco,
         }
+        ProdutosRepository.atualizar(novoProduto)
+        .then(() => {
+            response.status(200).end();
+        })
+        .catch(() => {
+            response.status(404).end();
+        });
     };
 });
 
@@ -73,12 +75,13 @@ ProdutosRouter.delete("/:id", (request, response) => {
     if (isNaN(id)) {
         response.status(400).end();
     } else {
-        const sucesso = ProdutosRepository.apagar(id);
-            if (!sucesso) {
-                response.status(404).end();
-            } else {
-                response.status(200).end();
-            };
+        ProdutosRepository.apagar(id)
+        .then(() => {
+            response.status(200).end();
+        })
+        .catch(() => {
+            response.status(404).end();
+        });
     };
 });
 

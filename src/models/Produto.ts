@@ -1,5 +1,5 @@
 type Produto = {
-    id: number;
+    id?: number;
     nome: string;
     preco: number;
 }
