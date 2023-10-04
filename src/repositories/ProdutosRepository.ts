@@ -1,32 +1,57 @@
 import Produto from "../models/Produto";
 import Database from "./Database";
 
+
+export const CREATE_TABLE_PRODUTOS_SQL = `
+    CREATE TABLE produtos (
+        id  INTERG PRIMARY KEY AUTOINCREMENT,
+        nome TEXT NOT NULL,
+        preco TEXT NOT NULL
+    );
+`;
+
 const ProdutosRepository = {
     lerTodos: () => {
         Database;
         return new Promise<Produto[]>((resolve, reject) => {
-            resolve(mock)
+           const sql = "SELECT * FROM produtos";
+
+           Database.all<Produto>(sql, (erro, produtos) => {
+                if (erro !== null) {
+                    reject(erro);
+                } else {
+                    resolve(produtos);
+                }
+           });
         });
     },
 
     ler: (id: number) => {
         return new Promise<Produto>((resolve, reject) => {
-            const produto = mock.find((produto) => {
-                return produto.id === id;
-            });
-            if (produto === undefined) {
-                reject();
+            const sql = `SELECT * FROM produtos WHERE id = ${id}`;
+
+          Database.get<Produto>(sql, (erro, produto) => {
+            if (erro !== null) {
+                reject(erro);
             } else {
                 resolve(produto);
-            };
+            }
+          });
         });
     },
 
     criar: (produto: Produto) => {
-        return new Promise<Number>((resolve, _reject) => {
-            produto.id = Date.now();
-            mock.push(produto);
-            resolve(produto.id);
+        return new Promise<Number>((resolve, reject) => {
+            const sql = `INSERT INTO produtos (nome, preco) VALUES (?, ?)`;
+            const params = [produto.nome, produto.preco];
+
+            Database.run(sql, params, function(erro) {
+                if ( erro !== null) {
+                    reject(erro);
+                } else {
+                    resolve(this.lastID);
+                }
+            });
         });
     },
 
